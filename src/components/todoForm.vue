@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <h1>Todo App</h1>
-    <form class="form">
+    <form class="form" @submit.prevent='submit'>
       <label class="todo-label">New Todo</label>
       <input
         type="text"
@@ -10,14 +10,16 @@
         placeholder="Enter Your todos"
         class="txtBox"
         autocomplete="off"
-        
       />
       <input type="button" value="Add todo" class="btn" @click="addTodo()" />
     </form>
   </div>
-  
-    <todo-list v-bind:items="todoListItem" @checked="onComplete"  @onUpdate = "toUpdate"/>
-  
+
+  <todo-list
+    v-bind:items="todoListItem"
+    @checked="onComplete"
+    @onDelete="toDelete"
+  />
 </template>
 
 <script>
@@ -36,15 +38,19 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodo != null) {
-        this.todoListItem.push({todo:this.newTodo,
-                                complete : false});
+        this.todoListItem.push({ todo: this.newTodo, complete: false });
       }
       this.newTodo = null;
     },
-    onComplete(flag, ind){
-      this.todoListItem[ind].complete = flag
+    onComplete(flag, ind) {
+      this.todoListItem[ind].complete = flag;
     },
-   
+    toDelete(ind) {
+      console.log("from parent :", ind);
+      this.todoListItem = this.todoListItem.filter(
+        ({ todo }) => todo !== this.todoListItem[ind].todo
+      );
+    },
   },
 };
 </script>

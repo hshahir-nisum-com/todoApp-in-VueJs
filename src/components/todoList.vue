@@ -5,17 +5,16 @@
         class="li-item todo-list-item"
         type="text"
         name="todoList"
-        :contenteditable="editable"
         v-for="(item, index) in items"
-        v-on:click="clickedToEdit($event, index)"
+        :class="{ completed: item.complete }"
         :key="item"
       >
         {{ item.todo }}
         <input
           type="button"
-          value="UPDATE"
-          :class="{ updatedButton: whenUpdate }"
-          class="btn-update"
+          value="Delete"
+          class="btn-dlt"
+          v-on:click="onDelete(index)"
         />
         <input
           type="checkbox"
@@ -39,7 +38,6 @@ export default {
   },
   data() {
     return {
-      editable: false,
       whenUpdate: false,
     };
   },
@@ -47,21 +45,9 @@ export default {
     onChange: function (event, ind) {
       this.$emit("checked", event.target.checked, ind);
     },
-    clickedToEdit: function (event, ind) {
-      this.editable = true;
-      this.whenUpdate = true;
-      let element = event.target;
-      let observer = new MutationObserver((mutations) =>
-        mutations.forEach((mutation) => {
-          this.$emit("onUpdate", mutation.target.data, ind);
-          console.log("input changed", mutation.target.data);
-        })
-      );
-      observer.observe(element, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
+    onDelete(ind) {
+      console.log("dlt :", ind);
+      this.$emit("onDelete", ind);
     },
   },
 };
@@ -94,13 +80,13 @@ ul {
   transform: scale(1.5);
   float: right;
   margin-top: 8px;
+  margin-right: 10px;
 }
-.btn-update {
-  display: none;
-}
-.updatedButton {
-  display: inline;
+.btn-dlt {
   float: right;
   margin-top: 4px;
+}
+.completed {
+  text-decoration: line-through;
 }
 </style>
