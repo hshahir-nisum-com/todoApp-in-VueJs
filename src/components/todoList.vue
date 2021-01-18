@@ -62,6 +62,7 @@ export default {
   background-color: white;
   background-color: -moz-field;
   font-size: 25px;
+  margin-left: 5px;
 }
 .li-item {
   list-style-type: none;
@@ -76,17 +77,20 @@ ul {
   padding: 0;
 }
 .checkBox {
-  /* font-size: 85px; */
-  transform: scale(1.5);
+  transform: scale(1.3);
   float: right;
-  margin-top: 8px;
+  margin-top: 6px;
   margin-right: 10px;
 }
 .btn-dlt {
   float: right;
   margin-top: 4px;
+  background-color: red;
+  border: 0;
+  height: 100%;
 }
 .completed {
   text-decoration: line-through;
+  color: red;
 }
 </style>
